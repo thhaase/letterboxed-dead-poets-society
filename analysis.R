@@ -21,13 +21,12 @@ d$language <- textcat(d$comment) |> as.factor()
 
 df <- d |> 
   data_filter(language == "english")
+
 # === === === === === === === === === === === === === === === === === === === ==
 # Feature Cooccurence Matrix
 
 corp <- corpus(df$comment,
                docvars = df[,-2])
-# corp
-# corp |> docvars("date")
 
 toks <- corp |> 
   tokens(remove_punct = T,
@@ -39,15 +38,14 @@ dfm <- toks |>
   dfm_remove(pattern = c(stopwords("en"), stopwords("de"), 
                          "movie", "can’t", "i’ve","didn’t", 
                          "don’t","it’s","isn’t")) |> 
-  dfm_trim(max_docfreq = 0.5, docfreq_type = "prop") #|> dfm_tfidf()
+  dfm_trim(max_docfreq = 0.5, docfreq_type = "prop")
 
 topfeatures(dfm)
 
 fcm <- fcm(dfm)
 
 m <- fcm |> as.matrix()
-m[1:10,1:10]
-m |> rownames() |> head(100)
+
 # === === === === === === === === === === === === === === === === === === === ==
 # Get Associations between Words and Rating
 
@@ -80,11 +78,7 @@ gp <- g |>
   activate(edges)
 
 gp |> 
-#  ggraph(layout = "stress") +
   ggraph(layout = "backbone", keep = 0.3) +
-  # ggraph(layout = "centrality",
-  #        cent = igraph::closeness(gp, weights = gp$weight)) +
-  #        #cent = igraph::degree(gp))
   geom_edge_bundle_path0(aes(edge_color = weight, edge_linewidth = weight),
                          tension = 0.8,
                          show.legend = FALSE) +
