@@ -77,7 +77,7 @@ gp <- g |>
   left_join(rating_lookup, by = "name") |> 
   activate(edges)
 
-gp |> 
+plot <- gp |> 
   ggraph(layout = "backbone", keep = 0.3) +
   geom_edge_bundle_path0(aes(edge_color = weight, edge_linewidth = weight),
                          tension = 0.8,
@@ -104,5 +104,6 @@ gp |>
        subtitle = "Network of Word Co-occurrences and Their Predicted Effect on Comment Ratings",
        caption = "All comments from Letterboxd (N = 3060)\nFiltered words for appearing in 50% of all comments, english language and stopwords\nFiltered network for strongest 1250 connections and only kept largest component")
 
-rstudioapi::savePlotAsImage("network.png", format = "png",
-                            width = 1200, height = 1200)
+png("network.png", width = 1200, height = 1200, res = 100)
+print(plot) 
+dev.off()
