@@ -37,7 +37,7 @@ dfm <- toks |>
   dfm() |> 
   dfm_remove(pattern = c(stopwords("en"), stopwords("de"), 
                          "movie", "can’t", "i’ve","didn’t", 
-                         "don’t","it’s","isn’t")) |> 
+                         "don’t","it’s","isn’t", "t", "that’s")) |> 
   dfm_trim(max_docfreq = 0.5, docfreq_type = "prop")
 
 topfeatures(dfm)
